@@ -151,7 +151,7 @@ class ShellCommand():
 
     def shell_out(self, cmd):
         data = None
-        
+
         for i, arg in enumerate(cmd):
             if isinstance(arg, str) and arg.startswith('~'):
                 cmd[i] = os.path.expanduser(arg)
@@ -400,6 +400,10 @@ class Scheck(ShellCommand):
             args.append(key)
             if value != "":
                 args.append(value)
+
+        project_data = sublime.active_window().project_data()
+        project_folder = project_data['folders'][0]['path']
+        self.setWorkingDir(os.path.normpath(project_folder))
 
         args.append(os.path.normpath(path))
 
